@@ -2,71 +2,24 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 function App() {
-  const [developer, setDeveloper] = React.useState({
-    name: "",
-    language: "Python",
-    yearsOfExperience: 0,
-    isEmployed: false,
-  });
-  // const [language, setLanguage] = React.useState("python");
-  // const [yearsOfExperience, setYearsOfExperience] = React.useState(0);
+  const [mousePosition, SetMousePosition] = React.useState({ x: 0, y: 0 });
 
   React.useEffect(() => {
-    document.title = developer.name;
-    console.log("runs");
-  }, [developer.name]);
+    document.addEventListener("mousemove", handleMouseMove);
 
-  function handleChangeName(e) {
-    setDeveloper({
-      ...developer,
-      name: e.target.value,
-    });
-  }
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
 
-  function handleBUttonClick(e) {
-    setDeveloper({
-      language: "JavaScript",
-      yearsOfExperience: 0,
-    });
-  }
-
-  function years(e) {
-    setDeveloper({
-      ...developer,
-      yearsOfExperience: e.target.value,
-    });
-  }
-
-  function handleToggleEmployment() {
-    setDeveloper((prevState) => ({
-      ...prevState,
-      isEmployed: !prevState.isEmployed,
-    }));
+  function handleMouseMove(e) {
+    SetMousePosition({ x: e.pageX, y: e.pageY });
   }
 
   return (
     <div>
-      <div>
-        <button onClick={handleToggleEmployment}>
-          Toggle Employment Status
-        </button>
-      </div>
-      <button onClick={handleBUttonClick}>Button Language</button>
-      <div>
-        <input type="number" onChange={years} />
-      </div>
-      <div>
-        Enter your name
-        <input type="text" onChange={handleChangeName} />
-      </div>
-
-      <p>I am learning {developer.language}</p>
       <p>
-        I have {developer.yearsOfExperience} in {developer.language}
-      </p>
-      <p>
-        Employment Status:{" "}
-        {developer.isEmployed === true ? "employed" : "not employed"}
+        x: {mousePosition.x}, y: {mousePosition.y}
       </p>
     </div>
   );
@@ -74,3 +27,9 @@ function App() {
 
 const rootNode = document.getElementById("root");
 ReactDOM.render(<App />, rootNode);
+
+function NewPage() {
+  return <div>New Page</div>;
+}
+
+setTimeout(ReactDOM.render(<NewPage />, rootNode), 5000);
