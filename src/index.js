@@ -6,6 +6,7 @@ const baseUrl = "https://api.github.com/users/";
 function App() {
   const [username, setUsername] = React.useState("rodriquesperry");
   const [user, setUser] = React.useState(null);
+  const searchInput = React.useRef();
 
   //Newer way for handling a promise
   async function getUser() {
@@ -14,6 +15,12 @@ function App() {
     setUser(data);
   }
 
+  function handleClearInput() {
+    searchInput.current.value = "";
+    searchInput.current.focus();
+  }
+
+  //It's normal to have useEffect close to the state that it is updating
   React.useEffect(() => {
     getUser();
     //Older way for handling a promise
@@ -28,9 +35,10 @@ function App() {
         type="text"
         onChange={(e) => setUsername(e.target.value)}
         placeholder="Input User Name"
+        ref={searchInput}
       />
       <button onClick={getUser}>Search</button>
-      <button>Clear</button>
+      <button onClick={handleClearInput}>Clear</button>
       {user ? (
         <div>
           <h2>{user.name}</h2>
