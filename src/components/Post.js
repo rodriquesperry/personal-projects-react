@@ -4,6 +4,11 @@ import { UserContext } from "../App";
 function Post({ image, content, user }) {
   const currentUser = useContext(UserContext);
   const isCurrentUser = currentUser === user;
+
+  function deletePost(e) {
+    e.preventDefault();
+  }
+
   return (
     <>
       {image && (
@@ -15,6 +20,7 @@ function Post({ image, content, user }) {
       )}
       <p>{content}</p>
       <div style={{ color: isCurrentUser && "green" }}>{user}</div>
+      <button>Delete Post</button>
     </>
   );
 }
